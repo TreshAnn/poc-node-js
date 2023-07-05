@@ -1,10 +1,13 @@
-import  User  from '../../models/user.model'
+import User from '../../models/user.model'
+import { BadRequestError } from '../../errors'
 
 export const createUser = async (userData: any) => {
-    try {
-        const user = await User.create(userData)
-        return user
-    } catch (error) {
-        throw new Error('There was an error creating the user')
-    }
+    // const userAlreadyExists = await User.findOne(userData.email)
+
+    // if (userAlreadyExists) {
+    //     throw new BadRequestError('Email already in use')
+    // }
+
+    const user = await User.create(userData)
+    return user   
 }
