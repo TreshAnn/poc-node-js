@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
+// import bcrypt from 'bcryptjs'
+import * as utilsFunction from '../../utils/authUtils'
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -19,6 +21,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please provide password']
     }
+})
+
+UserSchema.pre('save', async function(next){
+   this.password = await utilsFunction.hashPassword(this.password)
+   next()
 })
 
 export default mongoose.model('User', UserSchema);
