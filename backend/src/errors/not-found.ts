@@ -4,7 +4,7 @@ import { CustomAPIError } from './custom-api'
 export class NotFoundError extends CustomAPIError {
     statusCode: number
 
-    constructor(message: any) {
+    constructor(message: string) {
         super(message)
 
         this.statusCode = StatusCodes.NOT_FOUND
