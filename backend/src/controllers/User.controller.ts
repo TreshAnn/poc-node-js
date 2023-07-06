@@ -9,6 +9,6 @@ export const registerUser = async (req: Request, res: Response) => {
 
     userService.validate(rq)
 
-    const user = await userService.createUser(rq)
-    res.status(StatusCodes.CREATED).json({ user })
+    const {user, token} = await userService.createUser(rq)
+    res.status(StatusCodes.CREATED).json({ user, token })
 }
