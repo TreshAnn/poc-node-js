@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
 import validator from 'validator'
-// import bcrypt from 'bcryptjs'
 import * as utilsFunction from '../../utils/authUtils'
 
 const UserSchema = new mongoose.Schema({
