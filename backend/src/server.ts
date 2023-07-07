@@ -4,6 +4,7 @@ const app = express()
 import dotenv from 'dotenv'
 dotenv.config()
 
+
 // db
 import connectDB from './db/connect'
 
@@ -13,6 +14,7 @@ import authRouter from './routes/authRouter'
 // middlewares
 import notFoundMiddleware from './middleware/not-found'
 import errorHandlerMiddleware from './middleware/error-handler'
+
 
 app.use(express.json())
 
