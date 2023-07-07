@@ -3,7 +3,7 @@ import express from 'express'
 const app = express()
 import dotenv from 'dotenv'
 dotenv.config()
-import morgan from 'morgan'
+
 
 // db
 import connectDB from './db/connect'
@@ -15,9 +15,6 @@ import authRouter from './routes/authRouter'
 import notFoundMiddleware from './middleware/not-found'
 import errorHandlerMiddleware from './middleware/error-handler'
 
-if(process.env.NODE_ENV !== 'production'){
-    app.use(morgan('dev'))
-}
 
 app.use(express.json())
 
