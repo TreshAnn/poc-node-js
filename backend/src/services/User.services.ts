@@ -1,17 +1,16 @@
 import User from '../db/model/user.model'
 import { BadRequestError,UnAuthenticatedError } from '../errors'
-import { IUserRq } from '../models/User.interface'
+import { IRegisterRq, IUserRq } from '../models/User.interface'
 import * as utilsFunction from '../utils/authUtils'
 
-export async function createUser(userData: IUserRq){
+export async function createUser(userData: IRegisterRq){
     const user = await User.create(userData);
     
     const token = await utilsFunction.generateToken({userId: user.id, name: user.username})
     return {user, token};
     
 }
-
-export function validate (req: IUserRq) {
+export function validate (req: IRegisterRq) {
     if (!req.username || !req.email || !req.password) {
         throw new BadRequestError('Please provide all values!');
     }

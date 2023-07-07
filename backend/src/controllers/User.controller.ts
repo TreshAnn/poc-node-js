@@ -1,10 +1,10 @@
 import { Request, Response} from 'express';
 import * as userService from '../services/User.services';
-import { IUserRq } from '../models/User.interface';
+import { IRegisterRq, IUserRq } from '../models/User.interface';
 import { StatusCodes } from 'http-status-codes';
 
 export const registerUser = async (req: Request, res: Response) => {
-    const rq: IUserRq = req.body
+    const rq: IRegisterRq = req.body
 
     userService.validate(rq)
 
