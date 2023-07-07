@@ -1,6 +1,6 @@
 import { Request, Response} from 'express';
 import * as userService from '../services/User.services';
-import { IRegisterRq, IUserRq } from '../models/User.interface';
+import { IRegisterRq, ILoginRq } from '../models/User.interface';
 import { StatusCodes } from 'http-status-codes';
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -13,7 +13,7 @@ export const registerUser = async (req: Request, res: Response) => {
     
 }
 export const loginUser = async (req: Request, res: Response) =>{
-  const rq: IUserRq =req.body
+  const rq: ILoginRq =req.body
   
   const login= await userService.loginUser(rq)
 

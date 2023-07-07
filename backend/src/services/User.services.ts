@@ -1,6 +1,6 @@
 import User from '../db/model/user.model'
 import { BadRequestError,UnAuthenticatedError } from '../errors'
-import { IRegisterRq, IUserRq } from '../models/User.interface'
+import { IRegisterRq, ILoginRq } from '../models/User.interface'
 import * as utilsFunction from '../utils/authUtils'
 
 export async function createUser(userData: IRegisterRq){
@@ -15,7 +15,7 @@ export function validate (req: IRegisterRq) {
         throw new BadRequestError('Please provide all values!');
     }
 }
-export async function loginUser(userData: IUserRq){
+export async function loginUser(userData: ILoginRq){
     const { email, password } = userData;
     if (!userData.email || !userData.password){
         throw new BadRequestError('Please provide all values!');
