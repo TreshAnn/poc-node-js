@@ -1,22 +1,14 @@
 import User from '../db/model/user.model'
-<<<<<<< HEAD
-import { BadRequestError } from '../errors'
-import { IRegisterUserRq } from '../models/User.interface'
-import * as utilsFunction from '../utils/authUtils'
-
-export async function createUser(userData: IRegisterUserRq){
-    const user = await User.create(userData);
-
-    const token = await utilsFunction.generateToken({userId: user.id, name: user.username})
-    return {user, token};
-=======
 import { BadRequestError,UnAuthenticatedError } from '../errors'
 import { IUserRq } from '../models/User.interface'
 import * as utilsFunction from '../utils/authUtils'
 
 export async function createUser(userData: IUserRq){
-    return await User.create(userData);
->>>>>>> origin/feat-login
+    const user = await User.create(userData);
+    
+    const token = await utilsFunction.generateToken({userId: user.id, name: user.username})
+    return {user, token};
+    
 }
 
 export function validate (req: IUserRq) {
@@ -41,5 +33,7 @@ export async function loginUser(userData: IUserRq){
         throw new UnAuthenticatedError('Invalid password');
     }
 
-    return {user};
+    const token = await utilsFunction.generateToken({userId: user.id, name: user.username})
+
+    return {user, token};
 }
