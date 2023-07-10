@@ -23,8 +23,9 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.pre('save', async function(next){
-   this.password = await utilsFunction.hashPassword(this.password)
-   next()
+    if (!this.isModified('password')) return
+    this.password = await utilsFunction.hashPassword(this.password)
+    next()
 })
 
 export default mongoose.model('User', UserSchema);
