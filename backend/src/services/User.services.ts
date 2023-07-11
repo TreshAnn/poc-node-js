@@ -1,6 +1,6 @@
 import User from '../db/model/user.model'
 import { BadRequestError,UnAuthenticatedError } from '../errors'
-import { IRegisterRq, ILoginRq } from '../models/User.interface'
+import {IRegisterRq, ILoginRq, IUserUpdateRq } from '../models/User.interface'
 import * as utilsFunction from '../utils/authUtils'
 
 export async function createUser(userData: IRegisterRq){
@@ -15,6 +15,7 @@ export function validate (req: IRegisterRq) {
         throw new BadRequestError('Please provide all values!');
     }
 }
+
 export async function loginUser(userData: ILoginRq){
     const { email, password } = userData;
     if (!userData.email || !userData.password){
@@ -36,3 +37,39 @@ export async function loginUser(userData: ILoginRq){
 
     return {user, token};
 }
+
+
+export async function updateUser(userId: string, updateData: IUserUpdateRq){
+
+    const { username, email, password } = updateData
+
+   
+    if (!username || !email || !password) {
+        throw new BadRequestError('Please provide all values')
+    }
+    
+    const user = await User.findOne({ _id: userId })
+
+    if (!user){
+        throw new BadRequestError('User not found')
+    }
+
+    user.username = username
+    user.email = email
+    user.password = password
+
+    await user.save()
+    
+    const token = await utilsFunction.generateToken({ userId: user.id, name: user.username });
+
+    return { user, token };
+
+}
+
+export async function deleteUser(userId: string): Promise<void> {
+    const deletedUser =await User.findByIdAndDelete(userId);
+    if (!deletedUser){
+        throw new BadRequestError('User not found');
+    }
+}
+
