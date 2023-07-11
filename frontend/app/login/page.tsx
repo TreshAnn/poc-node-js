@@ -1,15 +1,47 @@
+"use client";
+
+import useSWRMutation from "swr/mutation";
+import { TLoginRq } from "./types";
+import { useState } from "react";
+
+const loginApi = async (url: string, { arg }: { arg: TLoginRq }) =>
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(arg),
+  }).then((res) => {
+    if (!res.ok) {
+      // Display error
+    }
+    return res.json();
+  });
 
 export default function Login() {
+  const { trigger, data, error } = useSWRMutation(
+    "/api/v1/auth/login",
+    loginApi
+  );
+
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const loginHandler = (e: any) => {
+    e.preventDefault();
+
+    trigger({
+      email: email,
+      password: password,
+    });
+
+    if (data) {
+      localStorage.setItem("token", data.login.token);
+    }
+  };
+
   return (
     <>
-      {/*
-          This example requires updating your template:
-  
-          ```
-          <html class="h-full bg-white">
-          <body class="h-full">
-          ```
-        */}
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -37,6 +69,10 @@ export default function Login() {
                   name="email"
                   type="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.currentTarget.value);
+                  }}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -58,6 +94,10 @@ export default function Login() {
                   name="password"
                   type="password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.currentTarget.value);
+                  }}
                   required
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -66,7 +106,7 @@ export default function Login() {
 
             <div>
               <button
-                type="submit"
+                onClick={loginHandler}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 Sign in
