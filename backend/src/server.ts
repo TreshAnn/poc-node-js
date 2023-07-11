@@ -14,6 +14,7 @@ import authRouter from './routes/authRouter'
 // middlewares
 import notFoundMiddleware from './middleware/not-found'
 import errorHandlerMiddleware from './middleware/error-handler'
+import authenticateUser from './middleware/auth'
 
 
 app.use(express.json())
@@ -23,7 +24,7 @@ app.get('/', (req, res) => {
     // throw new Error()
 })
 
-app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/auth', authenticateUser, authRouter)
 
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
