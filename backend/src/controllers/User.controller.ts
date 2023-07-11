@@ -38,3 +38,8 @@ export const deleteUser =async(req: Request, res: Response) => {
     res.status(StatusCodes.OK).json({message: 'User deleted successfully'});
    
 }
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    const user = await userService.listAllUsers()
+    res.status(StatusCodes.OK).json(user)
+}
