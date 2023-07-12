@@ -1,40 +1,42 @@
-import { Request, Response} from 'express';
-import * as userService from '../services/User.services';
-import { IRegisterRq, ILoginRq, IUserUpdateRq } from '../models/User.interface';
-import { StatusCodes } from 'http-status-codes';
+import { Request, Response } from "express";
+import * as userService from "../services/User.services";
+import { IRegisterRq, ILoginRq, IUserUpdateRq } from "../models/User.interface";
+import { StatusCodes } from "http-status-codes";
 
 export const registerUser = async (req: Request, res: Response) => {
-    const rq: IRegisterRq = req.body
+  const rq: IRegisterRq = req.body;
 
-    userService.validate(rq)
+  userService.validate(rq);
 
-    const {user, token} = await userService.createUser(rq)
-    res.status(StatusCodes.CREATED).json({ user, token })
-    
-}
-export const loginUser = async (req: Request, res: Response) =>{
-    const rq: ILoginRq = req.body
-  
-    const login= await userService.loginUser(rq)
+  const { user, token } = await userService.createUser(rq);
+  res.status(StatusCodes.CREATED).json({ user, token });
+};
+export const loginUser = async (req: Request, res: Response) => {
+  const rq: ILoginRq = req.body;
 
-    res.status(StatusCodes.OK).json({login});
-}
+  const login = await userService.loginUser(rq);
 
-export const updateUser =async (req: Request, res: Response) => {
-    const userId: string = req.params.id;
+  res.status(StatusCodes.OK).json({ login });
+};
 
-    const updateData: IUserUpdateRq  = req.body;
+export const updateUser = async (req: Request, res: Response) => {
+  const userId: string = req.params.id;
 
-    const updatedUser = await userService.updateUser(userId, updateData);
-        res.status(StatusCodes.OK).json({ updatedUser });
-    
-}
+  const updateData: IUserUpdateRq = req.body;
 
-export const deleteUser =async(req: Request, res: Response) => {
-    const userId: string =req.params.id;
+  const updatedUser = await userService.updateUser(userId, updateData);
+  res.status(StatusCodes.OK).json({ updatedUser });
+};
 
-    await userService.deleteUser(userId);
-    //res.status(StatusCodes.NO_CONTENT).end();
-    res.status(StatusCodes.OK).json({message: 'User deleted successfully'});
-   
-}
+export const deleteUser = async (req: Request, res: Response) => {
+  const userId: string = req.params.id;
+
+  await userService.deleteUser(userId);
+  //res.status(StatusCodes.NO_CONTENT).end();
+  res.status(StatusCodes.OK).json({ message: "User deleted successfully" });
+};
+
+export const validateToken = async (req: Request, res: Response) => {
+    const x = await userService.validateToken(req.body.token);
+  res.status(StatusCodes.OK).json(x);
+};
