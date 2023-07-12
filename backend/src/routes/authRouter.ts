@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 
-import { registerUser, loginUser, updateUser, deleteUser, getAllUsers } from '../controllers'
+import { registerUser, loginUser, updateUser, deleteUser, getAllUsers, validateToken } from '../controllers'
 import authenticateUser from '../middleware/auth'
 import auth from '../middleware/auth'
 // User Routes
@@ -10,5 +10,8 @@ router.route('/login').post(loginUser)
 router.route('/users/:id').patch(updateUser, authenticateUser)
 router.route('/users/:id').delete(deleteUser, authenticateUser)
 router.route('/users').get(getAllUsers, authenticateUser)
+
+//AUTH
+router.route('/validate').post(validateToken)
 
 export default router;
