@@ -6,8 +6,7 @@ import * as utilsFunction from '../utils/authUtils'
 export async function createUser(userData: IRegisterRq){
     const user = await User.create(userData);
     
-    const token = await utilsFunction.generateToken({userId: user.id, name: user.username})
-    return {user, token};
+    return {user};
     
 }
 
@@ -76,9 +75,8 @@ export async function updateUser(userId: string, updateData: IUserUpdateRq){
 
     await user.save()
     
-    const token = await utilsFunction.generateToken({ userId: user.id, name: user.username });
 
-    return { user, token };
+    return { user};
 
 }
 

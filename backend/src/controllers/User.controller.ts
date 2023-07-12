@@ -8,8 +8,8 @@ export const registerUser = async (req: Request, res: Response) => {
 
   userService.validate(rq);
 
-  const { user, token } = await userService.createUser(rq);
-  res.status(StatusCodes.CREATED).json({ user, token });
+  const { user} = await userService.createUser(rq);
+  res.status(StatusCodes.CREATED).json({ user});
 };
 export const loginUser = async (req: Request, res: Response) => {
   const rq: ILoginRq = req.body;
