@@ -10,9 +10,25 @@ export async function createUser(userData: IRegisterRq){
     return {user, token};
     
 }
+
 export function validate (req: IRegisterRq) {
     if (!req.username || !req.email || !req.password) {
         throw new BadRequestError('Please provide all values!');
+    }
+}
+
+export async function validateToken (token: string) {
+    try{
+        await utilsFunction.validateToken(token);
+        return {
+            code: 0,
+            message: 'valid token'
+        }
+    } catch (err){
+        return {
+            code: 1,
+            message: 'invalid token'
+        }
     }
 }
 

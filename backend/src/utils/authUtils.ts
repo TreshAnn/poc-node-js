@@ -15,4 +15,13 @@ export async function generateToken(payload: any): Promise<string> {
 export async function comparePassword(candidatePassword: string, hashedPassword: string): Promise<boolean> {
     const isMatch = await bcrypt.compare(candidatePassword, hashedPassword);
     return isMatch;
-  }
+}
+
+export async function validateToken(token: string){
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+          throw('invalid token');
+        }
+        // can do something with the decoded data
+      })
+}
