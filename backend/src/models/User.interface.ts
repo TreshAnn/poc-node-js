@@ -9,3 +9,5 @@ export interface IRegisterRq extends IUser {}
 export interface ILoginRq extends IUser {}
 
 export interface IUserUpdateRq extends Partial<IUser> {}
+
+export interface IGetAllUsers extends IUser {}
