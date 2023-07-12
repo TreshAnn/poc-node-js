@@ -1,6 +1,36 @@
-import Image from "next/image";
+"use client";
+import { useEffect } from "react";
+import useSWR from "swr";
+import { useRouter } from 'next/navigation'
+
+const validateToken = async (url: string) =>
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token: localStorage.getItem("token") }),
+  }).then((res) => res.json());
 
 export default function Home() {
+  const router = useRouter()
+  const { data } = useSWR("/api/v1/auth/validate", (url) =>
+    validateToken(url), 
+    {
+      onSuccess: (data) => {
+        if(data?.code != 0) router.push('/login')
+      },
+      onError: () => {
+        router.push('/login')
+      }
+    }
+  );
+
+  function logoutHandler(event: any): void {
+    localStorage.removeItem("token");
+    router.push('/login')
+  }
+
   return (
     <div className="antialiased bg-slate-200 text-slate-700 mx-2">
       <div className="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
@@ -142,7 +172,12 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <p className="text-xs text-slate-500 text-center">POC...</p>
+        <button
+          onClick={logoutHandler}
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        >
+          Sign out
+        </button>
       </div>
     </div>
   );

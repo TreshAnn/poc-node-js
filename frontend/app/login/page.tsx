@@ -3,6 +3,7 @@
 import useSWRMutation from "swr/mutation";
 import { TLoginRq } from "./types";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const loginApi = async (url: string, { arg }: { arg: TLoginRq }) =>
   fetch(url, {
@@ -12,16 +13,23 @@ const loginApi = async (url: string, { arg }: { arg: TLoginRq }) =>
     },
     body: JSON.stringify(arg),
   }).then((res) => {
-    if (!res.ok) {
-      // Display error
-    }
     return res.json();
   });
 
 export default function Login() {
-  const { trigger, data, error } = useSWRMutation(
+  const router = useRouter();
+  const { trigger } = useSWRMutation(
     "/api/v1/auth/login",
-    loginApi
+    loginApi,
+    {
+      onError: (error, key) => {
+        console.log(error);
+      },
+      onSuccess: (data) => {
+        localStorage.setItem("token", data?.login?.token);
+        router.push("/");
+      },
+    }
   );
 
   const [email, setEmail] = useState<string>("");
@@ -34,10 +42,6 @@ export default function Login() {
       email: email,
       password: password,
     });
-
-    if (data) {
-      localStorage.setItem("token", data.login.token);
-    }
   };
 
   return (
