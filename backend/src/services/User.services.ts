@@ -1,6 +1,6 @@
 import User from '../db/model/user.model'
 import { BadRequestError,UnAuthenticatedError } from '../errors'
-import {IRegisterRq, ILoginRq, IUserUpdateRq } from '../models/User.interface'
+import {IRegisterRq, ILoginRq, IUserUpdateRq, IGetAllUsers } from '../models/User.interface'
 import * as utilsFunction from '../utils/authUtils'
 
 export async function createUser(userData: IRegisterRq){
@@ -89,3 +89,7 @@ export async function deleteUser(userId: string): Promise<void> {
     }
 }
 
+export async function listAllUsers(): Promise<IGetAllUsers[]> {
+    const user = await User.find({})
+    return user
+}

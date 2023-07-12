@@ -40,3 +40,8 @@ export const validateToken = async (req: Request, res: Response) => {
     const x = await userService.validateToken(req.body.token);
   res.status(StatusCodes.OK).json(x);
 };
+
+export const getAllUsers = async (req: Request, res: Response) => {
+    const user = await userService.listAllUsers()
+    res.status(StatusCodes.OK).json(user)
+}

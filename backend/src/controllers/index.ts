@@ -1,1 +1,1 @@
-export { registerUser, loginUser, updateUser, deleteUser, validateToken } from './User.controller'
+export { registerUser, loginUser, updateUser, deleteUser, getAllUsers, validateToken } from './User.controller'
