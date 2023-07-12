@@ -48,10 +48,11 @@ export default function Modal({
     onSuccess: (data) => {
       closeModal();
       openToast();
-    },
+    }
   });
 
   function handleCreateUser() {
+  
     trigger({
       email: email,
       password: password,
