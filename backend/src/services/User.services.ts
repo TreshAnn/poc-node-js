@@ -6,7 +6,6 @@ import * as utilsFunction from '../utils/authUtils'
 export async function createUser(userData: IRegisterRq){
     const user = await User.create(userData);
     
-   
     return {user};
     
 }
