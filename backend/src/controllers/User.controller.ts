@@ -8,8 +8,8 @@ export const registerUser = async (req: Request, res: Response) => {
 
   userService.validate(rq);
 
-  const { user, token } = await userService.createUser(rq);
-  res.status(StatusCodes.CREATED).json({ user, token });
+  const { user} = await userService.createUser(rq);
+  res.status(StatusCodes.CREATED).json({ user});
 };
 export const loginUser = async (req: Request, res: Response) => {
   const rq: ILoginRq = req.body;
@@ -32,7 +32,6 @@ export const deleteUser = async (req: Request, res: Response) => {
   const userId: string = req.params.id;
 
   await userService.deleteUser(userId);
-  //res.status(StatusCodes.NO_CONTENT).end();
   res.status(StatusCodes.OK).json({ message: "User deleted successfully" });
 };
 
