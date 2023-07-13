@@ -13,8 +13,9 @@ const auth = async (req: Request, res: Response, next: NextFunction): Promise<vo
   const token = authHeader.split(' ')[1];
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET) as { [key: string]: any };
-    console.log(payload);
+    const payload = jwt.verify(token, process.env.JWT_SECRET_KEY) as { [key: string]: any };
+    // console.log(payload);
+    req.user = { userId: payload.userId }
     next();
   } catch (error) {
     throw new UnAuthenticatedError('Authentication invalid');
